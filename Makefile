@@ -26,6 +26,7 @@ EXTRA_LDFLAGS += --strip-debug
 
 CONFIG_AUTOCFG_CP = n
 
+REGULATORY_IGNORE_STALE_KICKOFF = false
 ########################## WIFI IC ############################
 CONFIG_RTL8852A = n
 CONFIG_RTL8852B = n
@@ -430,6 +431,10 @@ ifeq ($(CONFIG_CALIBRATE_TX_POWER_BY_REGULATORY), y)
 EXTRA_CFLAGS += -DCONFIG_CALIBRATE_TX_POWER_BY_REGULATORY
 endif
 
+ifeq ($(REGULATORY_IGNORE_STALE_KICKOFF), false)
+EXTRA_CFLAGS += -DREGULATORY_IGNORE_STALE_KICKOFF
+endif
+
 ifeq ($(CONFIG_CALIBRATE_TX_POWER_TO_MAX), y)
 EXTRA_CFLAGS += -DCONFIG_CALIBRATE_TX_POWER_TO_MAX
 endif
@@ -701,11 +706,11 @@ export CONFIG_RTL8852CU = m
 all: modules
 
 modules:
-	#rm -f .symvers.$(MODULE_NAME)
+	rm -f .symvers.$(MODULE_NAME)
 
 	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC) M=$(shell pwd)  modules
 
-	#cp Module.symvers .symvers.$(MODULE_NAME)
+	cp Module.symvers .symvers.$(MODULE_NAME)
 
 strip:
 	$(CROSS_COMPILE)strip $(MODULE_NAME).ko --strip-unneeded
