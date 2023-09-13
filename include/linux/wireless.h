@@ -25,8 +25,8 @@
 #else
 	#define __user
 	/* typedef uint16_t	__u16; */
-	#include <sys/socket.h>			/* for "struct sockaddr" et al	*/
-	#include <net/if.h>			/* for IFNAMSIZ and co... */
+	#include <uapi/linux/socket.h>			/* for "struct sockaddr" et al	*/
+	#include <uapi/linux/if.h>			/* for IFNAMSIZ and co... */
 #endif
 
 /****************************** TYPES ******************************/
